@@ -1,0 +1,9 @@
+name: McKitsDuels
+version: ${project.version}
+main: me.matt11matthew.mckit.McKitsDuels
+authors: [matt11matthew]
+commands:
+  duel:
+  setspawn:
+  stats:
+  duelsreload:

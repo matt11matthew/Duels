@@ -1,0 +1,51 @@
+defaultElo: 1200
+spawnLocation: "world,0.0,0.0,0.0,0.0,0.0"
+arenaSpawnOne: "world,0.0,0.0,0.0,0.0,0.0"
+arenaSpawnTwo: "world,0.0,0.0,0.0,0.0,0.0"
+arenaCountDownTime: 10 #10 seconds
+
+
+messages:
+  arenaCountDown: "&eStarting in {0}&ls&e..."
+  duelStart: "&eDuel Started"
+  setSpawnPoint: "&eSet spawn point to {location}."
+  reloadConfig: "&eReloaded config."
+  errorNoPermission: "&cYou don't have the permission {permission}"
+
+permissions:
+  setSpawn: "duels.setSpawn"
+  reloadDuels: "duels.reload"
+
+
+joinMessageList:
+- " "
+- " "
+- " "
+- " "
+- " "
+- " "
+- " "
+- " "
+- " "
+- " "
+- "&c============================================="
+- "&fWelcome &b{player} &fto &b&lDuels&f&lMc"
+- " "
+- "  &7Type &n/duel <playerName> &7 to duel a player"
+- "&c============================================="
+- " "
+
+spawnScoreboardTitle: "&b&lMc&f&lKits Duels"
+spawnScoreboardLines:
+- " "
+- "&bIGN: &f{ign}"
+- "&bOnline Staff: &f{online_staff_size}"
+- "&bElo: &f{global_elo}"
+- "&bCredits: &f{credits}"
+- " "
+- "&bserver_ip_here"
+
+queueItemName: "&a&l{ladder} &7(Click)"
+queueItemLore:
+- "&eIn Queue: &a{in_queue_amount}"
+- "&eIn Game: &a{in_game_amount}"

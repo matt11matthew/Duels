@@ -1,0 +1,67 @@
+package me.matt11matthew.mckit.config;
+
+import com.google.common.io.ByteStreams;
+import me.matt11matthew.mckit.McKitsDuels;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.*;
+import java.util.List;
+
+/**
+ * Created by Matthew E on 6/12/2017.
+ */
+public class DuelConfig {
+    private FileConfiguration fileConfiguration;
+    private File configurationFile;
+
+    public DuelConfig(String name) {
+        this.configurationFile = new File(McKitsDuels.getInstance().getDataFolder() + "/" + name + ".yml");
+        if (!McKitsDuels.getInstance().getDataFolder().exists()) {
+            McKitsDuels.getInstance().getDataFolder().mkdirs();
+        }
+        if (!this.configurationFile.exists()) {
+            try {
+                this.configurationFile.createNewFile();
+                InputStream inputStream = McKitsDuels.getInstance().getResource(name + ".yml");
+                OutputStream outputStream = new FileOutputStream(this.configurationFile);
+                ByteStreams.copy(inputStream, outputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        this.fileConfiguration = YamlConfiguration.loadConfiguration(this.configurationFile);
+    }
+
+    public FileConfiguration getFileConfiguration() {
+        return fileConfiguration;
+    }
+
+    public File getConfigurationFile() {
+        return configurationFile;
+    }
+
+    public void save() throws IOException {
+        this.fileConfiguration.save(this.configurationFile);
+    }
+
+    public void set(String path, Object value) {
+        this.fileConfiguration.set(path, value);
+    }
+
+    public List<String> getStringList(String path) {
+        return fileConfiguration.getStringList(path);
+    }
+
+    public boolean isSet(String path) {
+        return fileConfiguration.isSet(path);
+    }
+
+    public int getInteger(String path) {
+        return fileConfiguration.getInt(path, 1200);
+    }
+
+    public String getString(String path) {
+        return fileConfiguration.getString(path);
+    }
+}
