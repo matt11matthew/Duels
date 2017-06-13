@@ -1,20 +1,43 @@
 defaultElo: 1200
-spawnLocation: "world,0.0,0.0,0.0,0.0,0.0"
-arenaSpawnOne: "world,0.0,0.0,0.0,0.0,0.0"
-arenaSpawnTwo: "world,0.0,0.0,0.0,0.0,0.0"
 arenaCountDownTime: 10 #10 seconds
-
 
 messages:
   arenaCountDown: "&eStarting in {0}&ls&e..."
   duelStart: "&eDuel Started"
   setSpawnPoint: "&eSet spawn point to {location}."
   reloadConfig: "&eReloaded config."
+  startingSetUp: "&eStarting the setup."
+  positionNotSet: "&cError: Position {position} is not set."
+  createArena: "&eYou've created the arena!"
+  playerDoesNotExist: "&cThe player {name} doesn't exists."
+  setPosition: "&eSet position-{number} to &7({location})"
+  consoleHasNoStats: "&cConsole has no stats."
   errorNoPermission: "&cYou don't have the permission {permission}"
+  playerStats:
+  - "&8&m---------------------------------"
+  - "&eUsername: &b{name}"
+  - "&e&lElo"
+  - "  &eRefill: &b{refill_elo}"
+  - "  &eNo Refill: &b{no_refill_elo}"
+  - "&e&lDeaths"
+  - "  &eRefill: &b{refill_deaths}"
+  - "  &eNo Refill: &b{no_refill_deaths}"
+  - "&e&lKills"
+  - "  &eRefill: &b{refill_kills}"
+  - "  &eNo Refill: &b{no_refill_kills}"
+  - "&eCredits: &b{credits}"
+  - "&eTotal Kills: &b{total_kills}"
+  - "&eTotal Deaths: &b{total_deaths}"
+  - "&eTotal KDR: &b{total_kdr}"
+  - "&eGlobal Elo: &b{global_elo}"
+  - "&eRanked Wins: &b{ranked_wins}"
+  - "&eUnranked Wins: &b{unranked_wins}"
+  - "&8&m---------------------------------"
 
 permissions:
   setSpawn: "duels.setSpawn"
   reloadDuels: "duels.reload"
+  setupArena: "duels.setup"
 
 
 joinMessageList:

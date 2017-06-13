@@ -11,11 +11,11 @@ import java.util.List;
 /**
  * Created by Matthew E on 6/12/2017.
  */
-public class DuelConfig {
+public class Config {
     private FileConfiguration fileConfiguration;
     private File configurationFile;
 
-    public DuelConfig(String name) {
+    public Config(String name) {
         this.configurationFile = new File(McKitsDuels.getInstance().getDataFolder() + "/" + name + ".yml");
         if (!McKitsDuels.getInstance().getDataFolder().exists()) {
             McKitsDuels.getInstance().getDataFolder().mkdirs();
@@ -63,5 +63,9 @@ public class DuelConfig {
 
     public String getString(String path) {
         return fileConfiguration.getString(path);
+    }
+
+    public boolean getBoolean(String path) {
+        return fileConfiguration.getBoolean(path);
     }
 }

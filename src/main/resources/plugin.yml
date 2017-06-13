@@ -6,4 +6,6 @@ commands:
   duel:
   setspawn:
   stats:
+  setuparena:
   duelsreload:
+  confirmcreation:

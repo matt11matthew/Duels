@@ -65,6 +65,26 @@ public class DuelPlayerManager {
         return null;
     }
 
+    public AbstractDuelPlayer getDuelPlayer(String name) {
+        for (AbstractDuelPlayer abstractDuelPlayer : this.duelPlayerMap.values()) {
+            if (abstractDuelPlayer.getName().equalsIgnoreCase(name)) {
+                return abstractDuelPlayer;
+            }
+        }
+        File file = new File(McKitsDuels.getInstance().getDataFolder() + "/playerdata/");
+        if ((file.exists()) && (file.listFiles()!=null)&&(file.listFiles().length>0)) {
+            for (File file1 : file.listFiles()) {
+                FileConfiguration configuration = YamlConfiguration.loadConfiguration(file1);
+                if (configuration.getString("name").equalsIgnoreCase(name)) {
+                    System.out.println("Found duel player " + configuration.getString("uniqueId") + "...");
+                    return new AbstractDuelPlayerImpl(UUID.fromString(configuration.getString("uniqueId")), configuration.getString("name"));
+                }
+            }
+        }
+        System.out.println("Could not find duel player " + name + " returning null");
+        return null;
+    }
+
     public AbstractDuelPlayer create(UUID uuid, String username) {
         if (duelPlayerMap.containsKey(uuid)) {
             System.out.println("Found duel player " + username + " skipped creation...");
@@ -83,7 +103,7 @@ public class DuelPlayerManager {
         AbstractDuelPlayerImpl abstractDuelPlayer = new AbstractDuelPlayerImpl(uuid, username);
         abstractDuelPlayer.setCredits(new Value<>(0, ValueType.SET));
         for (GameType gameType : GameType.values()) {
-            abstractDuelPlayer.setElo(gameType, new Value<>(McKitsDuels.getInstance().getDuelConfig().getInteger("defaultElo"), ValueType.SET));
+            abstractDuelPlayer.setElo(gameType, new Value<>(McKitsDuels.getInstance().getDuelsConfig().getInteger("defaultElo"), ValueType.SET));
         }
         this.duelPlayerMap.put(uuid, abstractDuelPlayer);
         System.out.println("Created duel player " + abstractDuelPlayer.toString());
@@ -100,6 +120,36 @@ public class DuelPlayerManager {
         }
         this.duelPlayerMap.put(uniqueId, duelPlayer);
         return duelPlayer;
+    }
+
+    public boolean isPlayer(String name) {
+        for (AbstractDuelPlayer abstractDuelPlayer : this.duelPlayerMap.values()) {
+            if (abstractDuelPlayer.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        File file = new File(McKitsDuels.getInstance().getDataFolder() + "/playerdata/");
+        if ((file.exists()) && (file.listFiles()!=null)&&(file.listFiles().length>0)) {
+            for (File file1 : file.listFiles()) {
+                FileConfiguration configuration = YamlConfiguration.loadConfiguration(file1);
+                if (configuration.getString("name").equalsIgnoreCase(name)) {
+                    System.out.println("Found duel player " + configuration.getString("uniqueId") + "...");
+                    return true;
+                }
+            }
+        }
+        System.out.println("Could not find duel player " + name+ " returning false");
+        return false;
+    }
+
+    public UUID getUniqueId(String name) {
+        if (isPlayer(name)) {
+            AbstractDuelPlayer duelPlayer = getDuelPlayer(name);
+            if (duelPlayer != null) {
+                return duelPlayer.getUniqueId();
+            }
+        }
+        return null;
     }
 }
 

@@ -1,7 +1,7 @@
 package me.matt11matthew.mckit.commands;
 
 import me.matt11matthew.mckit.McKitsDuels;
-import me.matt11matthew.mckit.config.DuelConfig;
+import me.matt11matthew.mckit.config.Config;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,14 +25,14 @@ public class DuelsReloadCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
-            DuelConfig duelConfig = McKitsDuels.getInstance().getDuelConfig();
+            Config config = McKitsDuels.getInstance().getDuelsConfig();
             Player player = (Player) sender;
-            String permission = duelConfig.getString("permissions.reloadDuels");
+            String permission = config.getString("permissions.reloadDuels");
             if (!player.hasPermission(permission)) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', duelConfig.getString("messages.errorNoPermission").replace("{permission}", permission)));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.errorNoPermission").replace("{permission}", permission)));
                 return true;
             }
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', duelConfig.getString("messages.reloadConfig")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.reloadConfig")));
             return true;
         }
         return true;

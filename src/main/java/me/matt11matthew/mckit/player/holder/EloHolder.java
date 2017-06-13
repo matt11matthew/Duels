@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 public interface EloHolder extends DuelPlayer {
     default int getElo(GameType gameType) {
         FileConfiguration configFile = getConfigFile();
-        return (configFile.isSet(gameType.toString() + ".elo")) ? configFile.getInt(gameType.toString() + ".elo") : McKitsDuels.getInstance().getDuelConfig().getInteger("defaultElo");
+        return (configFile.isSet(gameType.toString() + ".elo")) ? configFile.getInt(gameType.toString() + ".elo") : McKitsDuels.getInstance().getConfig().getInteger("defaultElo");
     }
 
     default void setElo(GameType gameType, Value<Integer> value) {

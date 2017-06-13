@@ -1,8 +1,7 @@
 package me.matt11matthew.mckit.player;
 
 import me.matt11matthew.mckit.McKitsDuels;
-import me.matt11matthew.mckit.player.holder.CreditHolder;
-import me.matt11matthew.mckit.player.holder.EloHolder;
+import me.matt11matthew.mckit.player.holder.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -13,7 +12,7 @@ import java.util.UUID;
 /**
  * Created by Matthew E on 6/12/2017.
  */
-public abstract class AbstractDuelPlayer implements CreditHolder, DuelPlayer, EloHolder {
+public abstract class AbstractDuelPlayer implements CreditHolder, DuelPlayer, EloHolder, RankedWinsHolder, UnRankedWinsHolder, DeathsHolder, KillsHolder {
     private UUID uniqueId;
     private String username;
     private File file;
