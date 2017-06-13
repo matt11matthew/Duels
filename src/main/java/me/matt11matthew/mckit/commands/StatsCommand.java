@@ -39,18 +39,20 @@ public class StatsCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.consoleHasNoStats")));
                 return true;
             }
-        }
-        String name = args[0];
-        if (!DuelPlayerManager.getInstance().isPlayer(name)) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.playerDoesNotExist").replace("{name}", name)));
+        } else if (args.length == 1) {
+            String name = args[0];
+            if (!DuelPlayerManager.getInstance().isPlayer(name)) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.playerDoesNotExist").replace("{name}", name)));
+                return true;
+            }
+            UUID uuid = DuelPlayerManager.getInstance().getUniqueId(name);
+            if (uuid == null) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.playerDoesNotExist").replace("{name}", name)));
+                return true;
+            }
+            sendStatsToPlayer((Player) sender, uuid);
             return true;
         }
-        UUID uuid = DuelPlayerManager.getInstance().getUniqueId(name);
-        if (uuid == null) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.playerDoesNotExist").replace("{name}", name)));
-            return true;
-        }
-        sendStatsToPlayer((Player) sender, uuid);
         return true;
     }
 
@@ -61,7 +63,7 @@ public class StatsCommand implements CommandExecutor {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.playerDoesNotExist").replace("{name}", "?")));
             return;
         }
-        List<String> playerStatsStringList = duelPlayer.getConfigFile().getStringList("messages.playerStats");
+        List<String> playerStatsStringList = config.getStringList("messages.playerStats");
         int deaths = 0;
         for (GameType gameType : GameType.values()) {
             deaths += duelPlayer.getDeaths(gameType);

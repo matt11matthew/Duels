@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -102,8 +103,20 @@ public class DuelPlayerManager {
         }
         AbstractDuelPlayerImpl abstractDuelPlayer = new AbstractDuelPlayerImpl(uuid, username);
         abstractDuelPlayer.setCredits(new Value<>(0, ValueType.SET));
+        abstractDuelPlayer.setRankedWins(new Value<>(0, ValueType.SET));
+        abstractDuelPlayer.setUnRankedWins(new Value<>(0, ValueType.SET));
         for (GameType gameType : GameType.values()) {
             abstractDuelPlayer.setElo(gameType, new Value<>(McKitsDuels.getInstance().getDuelsConfig().getInteger("defaultElo"), ValueType.SET));
+            abstractDuelPlayer.setKills(gameType, new Value<>(0, ValueType.SET));
+            abstractDuelPlayer.setDeaths(gameType, new Value<>(0, ValueType.SET));
+        }
+        FileConfiguration configFile = abstractDuelPlayer.getConfigFile();
+        configFile.set("uniqueId", uuid.toString());
+        configFile.set("name", username);
+        try {
+            configFile.save(abstractDuelPlayer.getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         this.duelPlayerMap.put(uuid, abstractDuelPlayer);
         System.out.println("Created duel player " + abstractDuelPlayer.toString());

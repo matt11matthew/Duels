@@ -2,7 +2,7 @@ defaultElo: 1200
 arenaCountDownTime: 10 #10 seconds
 
 messages:
-  arenaCountDown: "&eStarting in {0}&ls&e..."
+  arenaCountDown: "&eStarting in {time}&ls&e..."
   duelStart: "&eDuel Started"
   setSpawnPoint: "&eSet spawn point to {location}."
   reloadConfig: "&eReloaded config."
@@ -12,7 +12,23 @@ messages:
   playerDoesNotExist: "&cThe player {name} doesn't exists."
   setPosition: "&eSet position-{number} to &7({location})"
   consoleHasNoStats: "&cConsole has no stats."
+  playerLeaveGame: "&c{player} left the game."
+  duelEnd: "&cThe duel has ended!"
   errorNoPermission: "&cYou don't have the permission {permission}"
+  rankedDuelWinnerMessages:
+  - "&8&m---------------------------------"
+  - "&e{winner} has won the duel"
+  - "&e{winner} had {winner_health} health left"
+  - "&e{loser} had {loser_health} health left"
+  - "&e{loser} &c{elo_loss}"
+  - "&e{winner} &c{elo_gain}"
+  - "&8&m---------------------------------"
+  unRankedDuelWinnerMessages:
+  - "&8&m---------------------------------"
+  - "&e{winner} has won the duel"
+  - "&e{winner} had {winner_health} health left"
+  - "&e{loser} had {loser_health} health left"
+  - "&8&m---------------------------------"
   playerStats:
   - "&8&m---------------------------------"
   - "&eUsername: &b{name}"
@@ -37,6 +53,7 @@ messages:
 permissions:
   setSpawn: "duels.setSpawn"
   reloadDuels: "duels.reload"
+  setArenaSpawnPoint: "duels.addArenaSpawnPoint"
   setupArena: "duels.setup"
 
 

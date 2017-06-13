@@ -19,4 +19,5 @@ public interface DuelPlayer {
 
     FileConfiguration getConfigFile();
 
+    void sendMessage(String message);
 }

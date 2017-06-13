@@ -2,8 +2,11 @@ package me.matt11matthew.mckit.player;
 
 import me.matt11matthew.mckit.McKitsDuels;
 import me.matt11matthew.mckit.player.holder.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,7 +78,19 @@ public abstract class AbstractDuelPlayer implements CreditHolder, DuelPlayer, El
     }
 
     @Override
+    public void sendMessage(String message) {
+        Player player = Bukkit.getPlayer(this.uniqueId);
+        if ((player != null) && (player.isOnline())) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+        }
+    }
+
+    @Override
     public FileConfiguration getConfigFile() {
         return configFile;
+    }
+
+    public Player getPlayer() {
+        return Bukkit.getPlayer(this.uniqueId);
     }
 }

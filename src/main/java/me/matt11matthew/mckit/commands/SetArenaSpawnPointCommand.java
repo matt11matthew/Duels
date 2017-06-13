@@ -1,0 +1,59 @@
+package me.matt11matthew.mckit.commands;
+
+import me.matt11matthew.mckit.McKitsDuels;
+import me.matt11matthew.mckit.config.Config;
+import me.matt11matthew.mckit.utilities.LocationUtil;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.io.IOException;
+
+/**
+ * Created by Matthew E on 6/12/2017.
+ */
+public class SetArenaSpawnPointCommand implements CommandExecutor {
+
+    /**
+     * Executes the given command, returning its success
+     *
+     * @param sender  Source of the command
+     * @param command Command which was executed
+     * @param label   Alias of the command which was used
+     * @param args    Passed command arguments
+     * @return true if a valid command, otherwise false
+     */
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player) {
+            Config config = McKitsDuels.getInstance().getDuelsConfig();
+            Player player = (Player) sender;
+            String permission = config.getString("permissions.setArenaSpawnPoint");
+            if (!player.hasPermission(permission)) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.errorNoPermission").replace("{permission}", permission)));
+                return true;
+            }
+            if (args.length == 1) {
+                Config arenaConfig = McKitsDuels.getInstance().getArenaConfig();
+                String location = LocationUtil.getStringFromPlayerLocation(player.getLocation());
+                if (args[0].equalsIgnoreCase("one")) {
+                    arenaConfig.set("spawnPointOne", location);
+                } else if (args[0].equalsIgnoreCase("two")) {
+                    arenaConfig.set("spawnPointTwo", location);
+                } else {
+                    arenaConfig.set("spawnPointTwo", location);
+                }
+                try {
+                    arenaConfig.save();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.setSpawnPoint").replace("{location}", location)));
+                return true;
+            }
+        }
+        return true;
+    }
+}
