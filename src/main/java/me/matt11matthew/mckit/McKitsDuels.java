@@ -44,6 +44,7 @@ public class McKitsDuels extends JavaPlugin {
         this.getCommand("duelsreload").setExecutor(new DuelsReloadCommand());
         this.getCommand("confirmcreation").setExecutor(new ConfirmCreationCommand());
         this.getCommand("stats").setExecutor(new StatsCommand());
+        this.getCommand("duel").setExecutor(new DuelCommand());
         this.getCommand("setarenaspawnpoint").setExecutor(new SetArenaSpawnPointCommand());
     }
 
