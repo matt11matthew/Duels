@@ -17,7 +17,7 @@ public class DuelsReloadCommand implements CommandExecutor {
      * Executes the given command, returning its success
      *
      * @param sender  Source of the command
-     * @param command Command which was executed
+     * @param command CoEmmand which was executed
      * @param label   Alias of the command which was used
      * @param args    Passed command arguments
      * @return true if a valid command, otherwise false

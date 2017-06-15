@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
+
 /**
  * Created by Matthew E on 6/12/2017.
  */
@@ -35,6 +37,11 @@ public class SetSpawnCommand implements CommandExecutor {
             }
             String location = LocationUtil.getStringFromPlayerLocation(player.getLocation());
             config.set("locations.spawnPoint", LocationUtil.getStringFromPlayerLocation(player.getLocation()));
+            try {
+                config.save();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', config.getString("messages.setSpawnPoint").replace("{location}", location)));
             return true;
         }

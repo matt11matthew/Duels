@@ -68,4 +68,8 @@ public class Config {
     public boolean getBoolean(String path) {
         return fileConfiguration.getBoolean(path);
     }
+
+    public double getDouble(String path) {
+        return fileConfiguration.getDouble(path);
+    }
 }

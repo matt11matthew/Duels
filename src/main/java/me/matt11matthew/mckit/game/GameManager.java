@@ -1,5 +1,11 @@
 package me.matt11matthew.mckit.game;
 
+import me.matt11matthew.mckit.McKitsDuels;
+import me.matt11matthew.mckit.config.Config;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.event.HandlerList;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +22,7 @@ public class GameManager {
         }
         return instance;
     }
+
     public GameManager() {
         instance = this;
         this.gameMap = new HashMap<>();
@@ -29,5 +36,12 @@ public class GameManager {
 
     public Map<String, Game> getGameMap() {
         return gameMap;
+    }
+
+    public void removeGame(Game game) {
+        gameMap.remove(game.getName());
+        Config duelsConfig = McKitsDuels.getInstance().getDuelsConfig();
+        HandlerList.unregisterAll(game);
+        Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', duelsConfig.getString("messages.gameEnded").replace("{name}", game.getName())));
     }
 }

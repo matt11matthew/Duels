@@ -1,15 +1,22 @@
 package me.matt11matthew.mckit.listeners;
 
 import me.matt11matthew.mckit.McKitsDuels;
+import me.matt11matthew.mckit.game.Game;
+import me.matt11matthew.mckit.game.GameManager;
 import me.matt11matthew.mckit.utilities.LocationUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -55,6 +62,62 @@ public class ArenaListeners implements Listener {
         }
     }
 
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        if (!event.getPlayer().isOp()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        if (!event.getPlayer().isOp()) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
+        if ((event.getDamager() instanceof Player) && (event.getEntity() instanceof Player)) {
+            Player attacker = (Player) event.getDamager();
+            Player player = (Player) event.getEntity();
+            if (isInGame(attacker, player)) {
+                return;
+            }
+            event.setCancelled(true);
+        } else if ((event.getDamager() instanceof Arrow) && (event.getEntity() instanceof Player)) {
+            Arrow arrow = (Arrow) event.getDamager();
+            if ((arrow != null) && (arrow.getShooter() != null) && (arrow.getShooter() instanceof Player)) {
+                Player attacker = (Player) arrow.getShooter();
+                Player player = (Player) event.getEntity();
+                if (isInGame(attacker, player)) {
+                    return;
+                }
+                event.setCancelled(true);
+            }
+        } else {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onCreatureSpawn(CreatureSpawnEvent event) {
+        event.setCancelled(true);
+    }
+
+    private boolean isInGame(Player attacker, Player player) {
+        for (Game game : GameManager.getInstance().getGameMap().values()) {
+            if ((game.getPlayer1().getUniqueId().equals(attacker.getUniqueId())) && (game.getPlayer2().getUniqueId().equals(player.getUniqueId()))) {
+                return true;
+            }
+            if ((game.getPlayer2().getUniqueId().equals(attacker.getUniqueId())) && (game.getPlayer1().getUniqueId().equals(player.getUniqueId()))) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
     public ArenaListeners setPosition1(Location position1) {
         this.position1 = position1;
         return this;
@@ -64,6 +127,9 @@ public class ArenaListeners implements Listener {
         this.position2 = position2;
         return this;
     }
+
+
+
 
     public Location getPosition1() {
         return position1;

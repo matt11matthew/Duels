@@ -34,35 +34,29 @@ public class DuelPlayerManager {
 
     public boolean isPlayer(UUID uniqueId) {
         if (this.duelPlayerMap.containsKey(uniqueId)) {
-            System.out.println("Found duel player " + uniqueId.toString() + "...");
             return true;
         }
         File file = new File(McKitsDuels.getInstance().getDataFolder() + "/playerdata/", uniqueId.toString() + ".yml");
         if (file.exists()) {
             FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
             if (configuration.getString("uniqueId").equalsIgnoreCase(uniqueId.toString())) {
-                System.out.println("Found duel player " + uniqueId.toString() + "...");
                 return true;
             }
         }
-        System.out.println("Could not find duel player " + uniqueId.toString() + " returning false");
         return false;
     }
 
     public AbstractDuelPlayer getDuelPlayer(UUID uniqueId) {
         if (this.duelPlayerMap.containsKey(uniqueId)) {
-            System.out.println("Found duel player " + uniqueId.toString() + "...");
             return duelPlayerMap.get(uniqueId);
         }
         File file = new File(McKitsDuels.getInstance().getDataFolder() + "/playerdata/", uniqueId.toString() + ".yml");
         if (file.exists()) {
             FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
             if (configuration.getString("uniqueId").equalsIgnoreCase(uniqueId.toString())) {
-                System.out.println("Found duel player " + uniqueId.toString() + "...");
                 return new AbstractDuelPlayerImpl(uniqueId, configuration.getString("name"));
             }
         }
-        System.out.println("Could not find duel player " + uniqueId.toString() + " returning null");
         return null;
     }
 
@@ -77,25 +71,22 @@ public class DuelPlayerManager {
             for (File file1 : file.listFiles()) {
                 FileConfiguration configuration = YamlConfiguration.loadConfiguration(file1);
                 if (configuration.getString("name").equalsIgnoreCase(name)) {
-                    System.out.println("Found duel player " + configuration.getString("uniqueId") + "...");
                     return new AbstractDuelPlayerImpl(UUID.fromString(configuration.getString("uniqueId")), configuration.getString("name"));
                 }
             }
         }
-        System.out.println("Could not find duel player " + name + " returning null");
+
         return null;
     }
 
     public AbstractDuelPlayer create(UUID uuid, String username) {
         if (duelPlayerMap.containsKey(uuid)) {
-            System.out.println("Found duel player " + username + " skipped creation...");
             return duelPlayerMap.get(uuid);
         }
         File file = new File(McKitsDuels.getInstance().getDataFolder() + "/playerdata/", uuid.toString() + ".yml");
         if (file.exists()) {
             FileConfiguration configuration = YamlConfiguration.loadConfiguration(file);
             if (configuration.getString("uniqueId").equalsIgnoreCase(uuid.toString())) {
-                System.out.println("Found duel player " + username + " skipped creation...");
                 AbstractDuelPlayer duelPlayer = new AbstractDuelPlayerImpl(uuid, configuration.getString("name"));
                 this.duelPlayerMap.put(uuid, duelPlayer);
                 return duelPlayer;
@@ -119,7 +110,6 @@ public class DuelPlayerManager {
             e.printStackTrace();
         }
         this.duelPlayerMap.put(uuid, abstractDuelPlayer);
-        System.out.println("Created duel player " + abstractDuelPlayer.toString());
         return abstractDuelPlayer;
     }
 
@@ -146,12 +136,10 @@ public class DuelPlayerManager {
             for (File file1 : file.listFiles()) {
                 FileConfiguration configuration = YamlConfiguration.loadConfiguration(file1);
                 if (configuration.getString("name").equalsIgnoreCase(name)) {
-                    System.out.println("Found duel player " + configuration.getString("uniqueId") + "...");
                     return true;
                 }
             }
         }
-        System.out.println("Could not find duel player " + name+ " returning false");
         return false;
     }
 

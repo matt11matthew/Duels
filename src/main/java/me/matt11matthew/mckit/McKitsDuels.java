@@ -6,6 +6,8 @@ import me.matt11matthew.mckit.game.ArenaManager;
 import me.matt11matthew.mckit.listeners.ArenaListeners;
 import me.matt11matthew.mckit.listeners.PlayerListeners;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,7 +31,7 @@ public class McKitsDuels extends JavaPlugin {
         ArenaListeners instance = ArenaListeners.getInstance();
         ArenaManager instance1 = ArenaManager.getInstance();
         instance.setPosition1(instance1.getPosition(1));
-        instance.setPosition1(instance1.getPosition(2));
+        instance.setPosition2(instance1.getPosition(2));
     }
 
     private void registerListeners() {
@@ -46,10 +48,17 @@ public class McKitsDuels extends JavaPlugin {
         this.getCommand("stats").setExecutor(new StatsCommand());
         this.getCommand("duel").setExecutor(new DuelCommand());
         this.getCommand("setarenaspawnpoint").setExecutor(new SetArenaSpawnPointCommand());
+        this.getCommand("rankedmenu").setExecutor(new RankedMenuCommand());
+        this.getCommand("unrankedmenu").setExecutor(new UnRankedMenuCommand());
+        this.getCommand("dev").setExecutor(new DevCommand());
+        this.getCommand("elotop").setExecutor(new EloTopCommand());
     }
 
     @Override
     public void onDisable() {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            player.kickPlayer(ChatColor.translateAlternateColorCodes('&', duelsConfig.getString("messages.kickMessage")));
+        }
         ArenaListeners instance = ArenaListeners.getInstance();
         ArenaManager instance1 = ArenaManager.getInstance();
         if (instance.getPosition1() != null) {
